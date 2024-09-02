@@ -52,29 +52,6 @@ def getResponse(utterance, args):
 
     return resultSTR
 
-""" 
------參考Peter-----
-
-def resultDICTPacker(args):
-    resultDICT = {}
-    # resultDICT["date"] = datetime.datetime.today()
-    hourDICT = articut.parse(args[0], level="lv3")
-    if hourDICT["time"] != []:
-        resultDICT["hour"] = hourDICT["time"]["hour"]
-
-    try:
-        minuteDICT = articut.parse(args[1], level="lv3")
-        if minuteDICT["time"] != []:
-            resultDICT["minute"] = hourDICT[ "time"]["minute"]
-        else:
-            resultDICT["minute"] = "00"
-    except IndexError:
-        resultDICT["minute"] = "00"
-
-    return resultDICT
-
-"""
-
 def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
     debugInfo(inputSTR, utterance)
     if utterance == "[14]:[00]":
