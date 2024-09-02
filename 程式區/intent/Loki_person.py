@@ -15,7 +15,7 @@
     Output:
         resultDICT    dict
 """
-
+import cn2an
 from random import sample
 import json
 import os
@@ -130,5 +130,22 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
                 resultDICT["source"] = "reply"
         else:
             resultDICT["adult"] = articut.parse(args[0], level="lv3")["number"][args[0]]
+
+    if utterance == "[一位]小孩":
+        if CHATBOT_MODE:
+            resultDICT["response"] = getResponse(utterance, args)
+            if resultDICT["response"]:
+                resultDICT["source"] = "reply"
+        else:
+            resultDICT["child"] = articut.parse(args[0], level="lv3")["number"][args[0]]
+            
+    if utterance == "沒有":
+        if CHATBOT_MODE:
+            resultDICT["response"] = getResponse(utterance, args)
+            if resultDICT["response"]:
+                resultDICT["source"] = "reply"
+        else:
+            resultDICT["child"] = 0
+
 
     return resultDICT
