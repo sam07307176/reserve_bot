@@ -340,6 +340,6 @@ if __name__ == "__main__":
     # resultDICT = execLoki("今天天氣如何？後天氣象如何？", filterLIST=filterLIST, splitLIST=splitLIST, refDICT=refDICT) # output => {"key": ["今天天氣", "後天氣象"]}
     # resultDICT = execLoki(["今天天氣如何？", "後天氣象如何？"], filterLIST=filterLIST, refDICT=refDICT)                # output => {"key": ["今天天氣", "後天氣象"]}
 
-    inputSTR = "兩位大人四位小孩"
+    inputSTR = "明天下午1:00"
     resultDICT = execLoki(inputSTR, splitLIST=splitLIST, filterLIST=filterLIST, refDICT=refDICT)                # output => {"key": ["今天天氣", "後天氣象"]}
     print(resultDICT)

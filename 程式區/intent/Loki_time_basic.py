@@ -60,11 +60,11 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
             if resultDICT["response"]:
                 resultDICT["source"] = "reply"
         else:
-            datetime_str = datetime.datetime.today()
-            resultDICT["date"] = datetime_str[5:7].lstrip('0') + '/' + datetime_str[8:10].lstrip('0')
-            resultDICT["hour"] = args[0]
-            resultDICT["minute"] = args[1]
-            pass
+            date = datetime.datetime.today().strftime('%Y-%m-%d')
+            hour = args[0]
+            minute = args[1]
+            resultDICT["time"] = f"{date} {hour:02}:{minute:02}"
+
 
     if utterance == "[8]/[22]/[21]:[00]":
         if CHATBOT_MODE:
@@ -72,10 +72,12 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
             if resultDICT["response"]:
                 resultDICT["source"] = "reply"
         else:
-            resultDICT["date"] = args[0]+"/"+args[1]
-            resultDICT["hour"] = args[2]
-            resultDICT["minute"] = args[3]
-            pass
+            date = datetime.datetime.today().strftime('%Y')
+            date = f"{date}-{args[0]:02}-{args[1]:02}"
+            hour = args[2]
+            minute = args[3]
+            resultDICT["time"] = f"{date} {hour:02}:{minute:02}"
+            
 
     if utterance == "[8]/[22][晚上九點]":
         if CHATBOT_MODE:
@@ -83,11 +85,13 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
             if resultDICT["response"]:
                 resultDICT["source"] = "reply"
         else:
-            resultDICT["date"] = args[0]+"/"+args[1]
+            date = datetime.datetime.today().strftime('%Y')
+            date = f"{date}-{args[0]:02}-{args[1]:02}"
             dateDICT = articut.parse(args[2], level="lv3")
-            resultDICT["hour"] = dateDICT['time'][0][0]['datetime'][11-13]
-            resultDICT["minute"] = dateDICT['time'][0][0]['datetime'][14-16]
-            pass
+            datetime_str = dateDICT['time'][0][0]['datetime']
+            hour_minute = datetime_str[11:16]
+            resultDICT["time"] = f"{date} {hour_minute}"
+            
 
     if utterance == "[下午兩點]":
         if CHATBOT_MODE:
@@ -97,11 +101,8 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
         else:
             dateDICT = articut.parse(args[0], level="lv3")
             datetime_str = dateDICT['time'][0][0]['datetime']
-            resultDICT["date"] = datetime_str[5:7].lstrip('0') + '/' + datetime_str[8:10].lstrip('0')
-            resultDICT["hour"] = datetime_str[11:13]
-            resultDICT["minute"] = datetime_str[14:16]
+            resultDICT["time"] = datetime_str[0:16]
 
-            pass
 
     if utterance == "[明天晚上][9]:[00]":
         if CHATBOT_MODE:
@@ -110,16 +111,15 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
                 resultDICT["source"] = "reply"
         else:
             dateDICT = articut.parse(args[0], level="lv3")
-            if dateDICT["time"] != []:
-                # resultDICT["date"] = dateDICT["time"]["datetime"]
-                datetime_str = dateDICT['time'][0][0]['datetime']
-                resultDICT["date"] = datetime_str[5:7].lstrip('0') + '/' + datetime_str[8:10].lstrip('0')
+            datetime_str = dateDICT['time'][0][0]['datetime']
+            date = datetime_str[0:10]
             
-            if "晚上" or "下午" in args[0] and int(args[1])<=12:
-                resultDICT["hour"] = int(args[1])+12
+            if ("晚上" in args[0] or "下午" in args[0]) and int(args[1]) <= 12:
+                hour = int(args[1])+12
             else:
-                resultDICT["hour"] = args[1]
-            resultDICT["minute"] = args[2]
-            pass
+                hour = args[1]
+            minute = args[2]
+            resultDICT["time"] = f"{date} {hour:02}:{minute:02}"
+            
 
     return resultDICT
