@@ -35,7 +35,7 @@ class TableReserve:
     def __init__(self, mscDICT):
         
         self.mscDICT = mscDICT
-        self.reservation_time = mscDICT["reservation_time"]
+        self.reservation_time = str(mscDICT["reservation_time"])
         self.party_size = mscDICT["num_of_people"]["total"]
         self.file_path = f"./{self.reservation_time[0:10].replace('-', '')}_table.json"  # 文件路径
         self.start_time = datetime.strptime(self.reservation_time, "%Y-%m-%d %H:%M")
@@ -199,52 +199,58 @@ class BotClient(discord.Client):
                             "num_of_people": {"adult": None, "child": None, "total": None}, ## 分成大人跟小孩 
                             "phone_num": None,
                             "updatetime": datetime.now(),
-                            "finish": False
                         }
 
                     # 根據 Loki 的處理結果來處理多輪對話
-                    if "name" in lokiResultDICT:
+                    if lokiResultDICT["name"]:
                         self.mscDICT[message.author.id]["name"] = lokiResultDICT["name"]
                         logging.debug("######\nLoki 處理結果如下：")
                         logging.debug(lokiResultDICT)
+                        logging.debug(self.mscDICT[message.author.id])
                         replySTR = "請問您想預約什麼時候？"
 
-                    elif "time" in lokiResultDICT:
+                    elif lokiResultDICT["time"]:
                         self.mscDICT[message.author.id]["reservation_time"] = lokiResultDICT["time"]
                         logging.debug("######\nLoki 處理結果如下：")
                         logging.debug(lokiResultDICT)
+                        logging.debug(self.mscDICT[message.author.id])
                         replySTR = "請問預約人數是多少？（Ｏ大Ｏ小）"
 
-                    elif "adult" in lokiResultDICT:
-                        if "大人" or "大" in msgSTR:
-                            self.mscDICT[message.author.id]["num_of_people"]["adult"] = lokiResultDICT["adult"]
+                    elif lokiResultDICT["adult"]:
+                        self.mscDICT[message.author.id]["num_of_people"]["adult"] = lokiResultDICT["adult"]
+                        if "大人" in msgSTR or "大" in msgSTR:
+                            self.mscDICT[message.author.id]["num_of_people"]["child"] = "無"
+                            self.mscDICT[message.author.id]["num_of_people"]["total"] = self.mscDICT[message.author.id]["num_of_people"]["adult"]
+                            replySTR = "請提供您的聯絡電話。"
                         else:
-                            self.mscDICT[message.author.id]["num_of_people"]["adult"] = lokiResultDICT["adult"]
                             replySTR = "請問有小孩嗎？"
                         logging.debug("######\nLoki 處理結果如下：")
                         logging.debug(lokiResultDICT)
+                        logging.debug(self.mscDICT[message.author.id])
 
-                    elif "child" in lokiResultDICT:
+                    elif lokiResultDICT["child"]:
                         self.mscDICT[message.author.id]["num_of_people"]["child"] = lokiResultDICT["child"]
                         self.mscDICT[message.author.id]["num_of_people"]["adult"] = self.mscDICT[message.author.id]["num_of_people"]["adult"][0] - lokiResultDICT["child"][0]
-                        self.mscDICT[message.author.id]["num_of_people"]["total"] = self.mscDICT[message.author.id]["num_of_people"]["adult"][0] + self.mscDICT[message.author.id]["num_of_people"]["child"][0]
+                        self.mscDICT[message.author.id]["num_of_people"]["total"] = self.mscDICT[message.author.id]["num_of_people"]["adult"] + self.mscDICT[message.author.id]["num_of_people"]["child"][0]
+                        if self.mscDICT[message.author.id]["num_of_people"]["child"] == 0:
+                            self.mscDICT[message.author.id]["num_of_people"]["child"] = "無"
                         logging.debug("######\nLoki 處理結果如下：")
                         logging.debug(lokiResultDICT)
+                        logging.debug(self.mscDICT[message.author.id])
                         replySTR = "請提供您的聯絡電話。"
 
-                    elif "phone" in lokiResultDICT:
+                    elif lokiResultDICT["phone"]:
                         self.mscDICT[message.author.id]["phone_num"] = lokiResultDICT["phone"]
                         logging.debug("######\nLoki 處理結果如下：")
                         logging.debug(lokiResultDICT)
-                        replySTR = "感謝您提供的信息，我們正在為您查詢"
+                        logging.debug(self.mscDICT[message.author.id])
+                        replySTR = "感謝您提供的信息，我們正在為您查詢。"
 
                     # 根據完成情況來回應
                     if all(value for key, value in self.mscDICT[message.author.id].items() if key != "updatetime"):
                         self.mscDICT[message.author.id]["finish"] = True
-                        # reservation_time = self.mscDICT[message.author.id]["reservation_time"]
-                        # party_size = self.mscDICT[message.author.id]["num_of_people"]["total"]
-                        # file_path = f"./{reservation_time[0:10].replace('-', '')}_table.json"  # 文件路径
-                        # mscDICT = self.mscDICT[message.author.id]
+                        logging.debug(self.mscDICT[message.author.id])
+                        
                         CheckTable = TableReserve(self.mscDICT[message.author.id])
                         result = CheckTable.make_reservation()
                         
@@ -270,7 +276,4 @@ if __name__ == "__main__":
     with open("account.info", encoding="utf-8") as f: #讀取account.info
         accountDICT = json.loads(f.read())
     client = BotClient(intents=discord.Intents.default())
-    #client.run(accountDICT["discord_token"])
-
-
-
+    client.run(accountDICT["discord_token"])
