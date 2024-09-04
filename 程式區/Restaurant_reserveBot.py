@@ -270,4 +270,7 @@ if __name__ == "__main__":
     with open("account.info", encoding="utf-8") as f: #讀取account.info
         accountDICT = json.loads(f.read())
     client = BotClient(intents=discord.Intents.default())
-    client.run(accountDICT["discord_token"])
+    #client.run(accountDICT["discord_token"])
+
+
+
