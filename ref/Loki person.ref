@@ -1,0 +1,303 @@
+{
+    "language": "zh-tw",
+    "type": "basic",
+    "version": {
+        "atk": "v271",
+        "intent": "1.0"
+    },
+    "user_defined": {
+        "_verb": [
+            "預約",
+            "預訂",
+            "姓"
+        ],
+        "_symbols": [
+            "/",
+            ":"
+        ]
+    },
+    "utterance": {
+        "兩位": {
+            "id": "facf9f63-311a-4f9b-88f3-a9f5c0062438",
+            "argument": [
+                {
+                    "pos": "ENTITY_classifier",
+                    "text": "兩位",
+                    "checked": true,
+                    "checkbox": false
+                }
+            ]
+        },
+        "兩大": {
+            "id": "b152dba0-b96d-4c06-b9ff-20dd0ea15650",
+            "argument": [
+                {
+                    "pos": "ENTITY_num",
+                    "text": "兩",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "MODIFIER",
+                    "text": "大",
+                    "checked": false,
+                    "checkbox": false
+                }
+            ]
+        },
+        "沒有": {
+            "id": "59f38b00-b03d-4e09-97d6-9102097ea233",
+            "argument": [
+                {
+                    "pos": "FUNC_negation",
+                    "text": "沒有",
+                    "checked": false,
+                    "checkbox": false
+                }
+            ]
+        },
+        "一位小孩": {
+            "id": "c397e0d3-5d6c-4c61-be0d-234f2d520948",
+            "argument": [
+                {
+                    "pos": "ENTITY_classifier",
+                    "text": "一位",
+                    "checked": true,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_nouny",
+                    "text": "小孩",
+                    "checked": false,
+                    "checkbox": true
+                }
+            ]
+        },
+        "兩大兩小": {
+            "id": "6008e295-d8b5-4701-a637-3fd1c1780c2c",
+            "argument": [
+                {
+                    "pos": "ENTITY_num",
+                    "text": "兩",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "MODIFIER",
+                    "text": "大",
+                    "checked": false,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "兩",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "MODIFIER",
+                    "text": "小",
+                    "checked": false,
+                    "checkbox": false
+                }
+            ]
+        },
+        "總共兩位": {
+            "id": "6c10542b-19ca-46c9-a029-c4a3d6f72fb6",
+            "argument": [
+                {
+                    "pos": "MODIFIER",
+                    "text": "總共",
+                    "checked": false,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_classifier",
+                    "text": "兩位",
+                    "checked": true,
+                    "checkbox": false
+                }
+            ]
+        },
+        "我要兩大兩小": {
+            "id": "967c77a8-2076-467c-b39a-14ee56916069",
+            "argument": [
+                {
+                    "pos": "ENTITY_pronoun",
+                    "text": "我",
+                    "checked": false,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ACTION_verb",
+                    "lexy": [
+                        {
+                            "text": "想要",
+                            "level": "tier_1",
+                            "checked": false
+                        },
+                        {
+                            "text": "需要",
+                            "level": "tier_1",
+                            "checked": false
+                        },
+                        {
+                            "text": "想拿",
+                            "level": "tier_2",
+                            "checked": false
+                        },
+                        {
+                            "text": "想買",
+                            "level": "tier_2",
+                            "checked": false
+                        },
+                        {
+                            "text": "渴望",
+                            "level": "tier_2",
+                            "checked": false
+                        },
+                        {
+                            "text": "渴求",
+                            "level": "tier_2",
+                            "checked": false
+                        },
+                        {
+                            "text": "餓了",
+                            "level": "word2vec",
+                            "checked": false
+                        },
+                        {
+                            "text": "得照",
+                            "level": "word2vec",
+                            "checked": false
+                        },
+                        {
+                            "text": "需",
+                            "level": "word2vec",
+                            "checked": false
+                        },
+                        {
+                            "text": "更要",
+                            "level": "word2vec",
+                            "checked": false
+                        },
+                        {
+                            "text": "想",
+                            "level": "word2vec",
+                            "checked": false
+                        },
+                        {
+                            "text": "要去",
+                            "level": "word2vec",
+                            "checked": false
+                        },
+                        {
+                            "text": "真要",
+                            "level": "word2vec",
+                            "checked": false
+                        },
+                        {
+                            "text": "餓",
+                            "level": "word2vec",
+                            "checked": false
+                        }
+                    ],
+                    "text": "要",
+                    "checked": false,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "兩",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "MODIFIER",
+                    "text": "大",
+                    "checked": false,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "兩",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "MODIFIER",
+                    "text": "小",
+                    "checked": false,
+                    "checkbox": false
+                }
+            ]
+        },
+        "總共兩大兩小": {
+            "id": "440d7853-e8d6-414e-8fe0-0655677240af",
+            "argument": [
+                {
+                    "pos": "MODIFIER",
+                    "text": "總共",
+                    "checked": false,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "兩",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "MODIFIER",
+                    "text": "大",
+                    "checked": false,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "兩",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "MODIFIER",
+                    "text": "小",
+                    "checked": false,
+                    "checkbox": false
+                }
+            ]
+        },
+        "兩位大人兩位小孩": {
+            "id": "c885a795-9b03-4565-9e3c-441309659a2f",
+            "argument": [
+                {
+                    "pos": "ENTITY_classifier",
+                    "text": "兩位",
+                    "checked": true,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_nouny",
+                    "text": "大人",
+                    "checked": false,
+                    "checkbox": true
+                },
+                {
+                    "pos": "ENTITY_classifier",
+                    "text": "兩位",
+                    "checked": true,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_nouny",
+                    "text": "小孩",
+                    "checked": false,
+                    "checkbox": true
+                }
+            ]
+        }
+    },
+    "alias": {},
+    "prompt": {},
+    "document": []
+}

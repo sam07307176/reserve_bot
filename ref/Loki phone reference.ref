@@ -1,0 +1,35 @@
+{
+    "language": "zh-tw",
+    "type": "basic",
+    "version": {
+        "atk": "v271",
+        "intent": "1.0"
+    },
+    "user_defined": {
+        "_verb": [
+            "預約",
+            "預訂",
+            "姓"
+        ],
+        "_symbols": [
+            "/",
+            ":"
+        ]
+    },
+    "utterance": {
+        "0906671163": {
+            "id": "aa6f1134-c93a-41cb-95cf-dcd2723d207b",
+            "argument": [
+                {
+                    "pos": "ENTITY_num",
+                    "text": "0906671163",
+                    "checked": true,
+                    "checkbox": true
+                }
+            ]
+        }
+    },
+    "alias": {},
+    "prompt": {},
+    "document": []
+}

@@ -1,0 +1,239 @@
+{
+    "language": "zh-tw",
+    "type": "basic",
+    "version": {
+        "atk": "v271",
+        "intent": "1.0"
+    },
+    "user_defined": {
+        "_verb": [
+            "預約",
+            "預訂",
+            "姓"
+        ],
+        "_symbols": [
+            "/",
+            ":"
+        ]
+    },
+    "utterance": {
+        "14:00": {
+            "id": "52235039-c33c-4f13-b5a4-4d3b1b9049b8",
+            "argument": [
+                {
+                    "pos": "ENTITY_num",
+                    "text": "14",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "UserDefined",
+                    "text": ":",
+                    "checked": false,
+                    "checkbox": true
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "00",
+                    "checked": true,
+                    "checkbox": true
+                }
+            ]
+        },
+        "8/22/21:00": {
+            "id": "033e4622-664d-4830-a13d-987c5f3e8943",
+            "argument": [
+                {
+                    "pos": "ENTITY_num",
+                    "text": "8",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "UserDefined",
+                    "text": "/",
+                    "checked": false,
+                    "checkbox": true
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "22",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "UserDefined",
+                    "text": "/",
+                    "checked": false,
+                    "checkbox": true
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "21",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "UserDefined",
+                    "text": ":",
+                    "checked": false,
+                    "checkbox": true
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "00",
+                    "checked": true,
+                    "checkbox": true
+                }
+            ]
+        },
+        "下午兩點": {
+            "id": "2a7ed8b5-30ee-4080-b423-4813a1816982",
+            "argument": [
+                {
+                    "pos": "TIME_day",
+                    "text": "下午",
+                    "checked": true,
+                    "checkbox": false
+                },
+                {
+                    "pos": "TIME_justtime",
+                    "text": "兩點",
+                    "checked": true,
+                    "checkbox": false
+                }
+            ]
+        },
+        "8/22晚上九點": {
+            "id": "559788da-d0dd-4a3c-9855-fbd303b3f9d5",
+            "argument": [
+                {
+                    "pos": "ENTITY_num",
+                    "text": "8",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "UserDefined",
+                    "text": "/",
+                    "checked": false,
+                    "checkbox": true
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "22",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "TIME_day",
+                    "text": "晚上",
+                    "checked": true,
+                    "checkbox": false
+                },
+                {
+                    "pos": "TIME_justtime",
+                    "text": "九點",
+                    "checked": true,
+                    "checkbox": false
+                }
+            ]
+        },
+        "明天晚上9:00": {
+            "id": "73e25960-5343-427f-af09-568d5fc67105",
+            "argument": [
+                {
+                    "pos": "TIME_day",
+                    "text": "明天",
+                    "checked": true,
+                    "checkbox": false
+                },
+                {
+                    "pos": "TIME_day",
+                    "text": "晚上",
+                    "checked": true,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "9",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "UserDefined",
+                    "text": ":",
+                    "checked": false,
+                    "checkbox": true
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "00",
+                    "checked": true,
+                    "checkbox": true
+                }
+            ]
+        },
+        "八月十號21:00": {
+            "id": "7b098cd9-0b89-47fd-9ac1-b941c9ba519c",
+            "argument": [
+                {
+                    "pos": "TIME_month",
+                    "text": "八月",
+                    "checked": true,
+                    "checkbox": false
+                },
+                {
+                    "pos": "TIME_day",
+                    "text": "十號",
+                    "checked": true,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "21",
+                    "checked": true,
+                    "checkbox": true
+                },
+                {
+                    "pos": "UserDefined",
+                    "text": ":",
+                    "checked": false,
+                    "checkbox": true
+                },
+                {
+                    "pos": "ENTITY_num",
+                    "text": "00",
+                    "checked": true,
+                    "checkbox": true
+                }
+            ]
+        },
+        "明天下午兩點": {
+            "id": "f88a8668-b159-4df1-a830-ac288fbf7a6d",
+            "argument": [
+                {
+                    "pos": "TIME_day",
+                    "text": "明天",
+                    "checked": true,
+                    "checkbox": false
+                },
+                {
+                    "pos": "TIME_day",
+                    "text": "下午",
+                    "checked": true,
+                    "checkbox": false
+                },
+                {
+                    "pos": "TIME_justtime",
+                    "text": "兩點",
+                    "checked": true,
+                    "checkbox": false
+                }
+            ]
+        }
+    },
+    "alias": {},
+    "prompt": {},
+    "document": []
+}

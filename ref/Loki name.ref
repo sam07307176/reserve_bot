@@ -1,0 +1,115 @@
+{
+    "language": "zh-tw",
+    "type": "basic",
+    "version": {
+        "atk": "v271",
+        "intent": "1.0"
+    },
+    "user_defined": {
+        "_verb": [
+            "預約",
+            "預訂",
+            "姓"
+        ],
+        "_symbols": [
+            "/",
+            ":"
+        ]
+    },
+    "utterance": {
+        "張": {
+            "id": "086de9aa-4d75-4b36-bd93-bec30dba1df3",
+            "argument": [
+                {
+                    "pos": "ENTITY_oov",
+                    "text": "張",
+                    "checked": true,
+                    "checkbox": true
+                }
+            ]
+        },
+        "張先生": {
+            "id": "e456732a-6519-412f-b473-7bc67f6281eb",
+            "argument": [
+                {
+                    "pos": "ENTITY_pronoun",
+                    "text": "張先生",
+                    "checked": false,
+                    "checkbox": false
+                }
+            ]
+        },
+        "張小姐": {
+            "id": "9715dfaa-c3ed-49ae-9609-9a40de584379",
+            "argument": [
+                {
+                    "pos": "ENTITY_person",
+                    "text": "張小姐",
+                    "checked": false,
+                    "checkbox": false
+                }
+            ]
+        },
+        "我姓張": {
+            "id": "576f656e-5ff7-4a09-8a60-c60ebd6a2faf",
+            "argument": [
+                {
+                    "pos": "ENTITY_pronoun",
+                    "text": "我",
+                    "checked": false,
+                    "checkbox": false
+                },
+                {
+                    "pos": "UserDefined",
+                    "text": "姓",
+                    "checked": false,
+                    "checkbox": true
+                },
+                {
+                    "pos": "ENTITY_oov",
+                    "text": "張",
+                    "checked": true,
+                    "checkbox": true
+                }
+            ]
+        },
+        "我的名字是張小姐": {
+            "id": "faee237f-fb57-43c7-9ed3-cba4d662f9a6",
+            "argument": [
+                {
+                    "pos": "ENTITY_pronoun",
+                    "text": "我",
+                    "checked": false,
+                    "checkbox": false
+                },
+                {
+                    "pos": "FUNC_inner",
+                    "text": "的",
+                    "checked": false,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_noun",
+                    "text": "名字",
+                    "checked": false,
+                    "checkbox": true
+                },
+                {
+                    "pos": "AUX",
+                    "text": "是",
+                    "checked": false,
+                    "checkbox": false
+                },
+                {
+                    "pos": "ENTITY_person",
+                    "text": "張小姐",
+                    "checked": false,
+                    "checkbox": false
+                }
+            ]
+        }
+    },
+    "alias": {},
+    "prompt": {},
+    "document": []
+}
