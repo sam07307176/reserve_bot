@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 def getLokiResult(inputSTR, filterLIST=[]):
-    splitLIST = ["！", "，", "。", "？", "!", ",", " ","\n", "；", "\u3000", ";"] #
+    splitLIST = ["！", "，", "。", "？", "!", ",", " ", "\n", "；", "\u3000", ";"] #
     # 設定參考資料
     refDICT = { # value 必須為 list
         #"key": []
@@ -35,15 +35,15 @@ class TableReserve:
     def __init__(self, mscDICT):
         
         self.mscDICT = mscDICT
-        self.reservation_time = str(mscDICT["reservation_time"])
-        self.party_size = mscDICT["num_of_people"]["total"]
-        self.file_path = f"./{self.reservation_time[0:10].replace('-', '')}_table.json"  # 文件路径
-        self.start_time = datetime.strptime(self.reservation_time, "%Y-%m-%d %H:%M")
-        self.end_time = self.start_time + timedelta(minutes=90)
-        self.opening_time = self.start_time.replace(hour=9, minute=0, second=0, microsecond=0)
-        self.closing_time = self.start_time.replace(hour=21, minute=0, second=0, microsecond=0)
-        self.default_template = {
-                                        "max_seats": 10,
+        self.reserveTimeSTR = str(mscDICT["reservation_time"][0])
+        self.partySizeINT = mscDICT["num_of_people"]["total"] 
+        self.filePathSTR = f"./Reservation data/{self.reserveTimeSTR[0:10].replace('-', '')}_table.json"  # 文件路徑
+        self.startTimeDT = datetime.strptime(self.reserveTimeSTR, "%Y-%m-%d %H:%M")
+        self.endTimeDT = self.startTimeDT + timedelta(minutes=90)
+        self.openingTimeDT = self.startTimeDT.replace(hour=9, minute=0, second=0, microsecond=0)  # 開業時間為 9:00
+        self.closingTimeDT = self.startTimeDT.replace(hour=21, minute=0, second=0, microsecond=0)  # 歇業時間為 21:00
+        self.tableTemplateDICT = {      # 餐廳共有五張雙人桌，最多可容納十人
+                                        "max_seats": 10, 
                                         "tables": [
                                             {"id": 1, "capacity": 2, "reservations": []},
                                             {"id": 2, "capacity": 2, "reservations": []},
@@ -54,72 +54,70 @@ class TableReserve:
     }
 
     def load_reservations(self):
-        """加载指定路径的 JSON 文件"""
-        try:
-            with open(self.file_path, 'r', encoding='utf-8') as file:
+        """載入指定路徑的 JSON 文件"""
+        with open(self.filePathSTR, 'r', encoding='utf-8') as file:
                 return json.load(file)
-        except FileNotFoundError:
-            logging.error(f"File {self.file_path} not found.")
-            return None
 
-    def save_reservations(self, reservations):
-        """保存预订信息到指定路径的 JSON 文件"""
-        with open(self.file_path, 'w', encoding='utf-8') as file:
-            json.dump(reservations, file, ensure_ascii=False, indent=4)
+    def save_reservations(self, reservationDICT):
+        """保存更新後的定位資訊到指定路徑的 JSON 文件"""
+        with open(self.filePathSTR, 'w', encoding='utf-8') as file:
+            json.dump(reservationDICT, file, ensure_ascii=False, indent=4)
 
     def ensure_file_exists(self):
-        """确保指定路径的 JSON 文件存在，如果不存在则创建一个新的文件"""
-        if not os.path.exists(self.file_path):
-            with open(self.file_path, 'w', encoding='utf-8') as file:
-                json.dump(self.default_template, file, ensure_ascii=False, indent=4)
+        """如果該天檔案不存在則在指定路徑創建一個新的 JSON 文件"""
+        if not os.path.exists(self.filePathSTR):
+            with open(self.filePathSTR, 'w', encoding='utf-8') as file:
+                json.dump(self.tableTemplateDICT, file, ensure_ascii=False, indent=4)
 
-    def check_availability(self, reservations):
-
-        if self.start_time < self.opening_time or self.end_time > self.closing_time:
-            return "超出營業時間" # 超出營業時間
-
-        total_seats_reserved = sum(
-            res['party_size'] + (1 if res['party_size'] % 2 != 0 and table['capacity'] > res['party_size'] else 0)
-            for table in reservations['tables']
+    def check_availability(self, reservationDICT):
+        """預約時間是否在營業時間之內"""
+        if self.startTimeDT < self.openingTimeDT or self.endTimeDT > self.closingTimeDT:
+            return "超出營業時間" 
+        """該時段預定人數加上此訂單是否會超過餐廳容納人數，雙人桌若是已有一位客人則不開放併桌"""
+        totalSeatsReservedINT = sum(
+            res['partySizeINT'] + (1 if res['partySizeINT'] % 2 != 0 and table['capacity'] > res['partySizeINT'] else 0)
+            for table in reservationDICT['tables']
             for res in table['reservations']
-            if self.start_time < datetime.strptime(res['end_time'], "%Y-%m-%d %H:%M") and self.end_time > datetime.strptime(res['start_time'], "%Y-%m-%d %H:%M")
+            if self.startTimeDT < datetime.strptime(res['endTimeDT'], "%Y-%m-%d %H:%M") and self.endTimeDT > datetime.strptime(res['startTimeDT'], "%Y-%m-%d %H:%M")
         )
-        return reservations['max_seats'] - total_seats_reserved >= self.party_size
+        return reservationDICT['max_seats'] - totalSeatsReservedINT >= self.partySizeINT
 
     def make_reservation(self):
         self.ensure_file_exists()
-        reservations = self.load_reservations()
-        if not self.check_availability(reservations):
+        reservationDICT = self.load_reservations()
+        if not self.check_availability(reservationDICT):
             return "該時段無法預約" 
 
-        seats_needed = self.party_size
+        """安排座位"""
+        seatsNeededINT = self.partySizeINT
 
-        for table in reservations['tables']:
-            current_seats_reserved = sum(
-                res['party_size'] + (1 if res['party_size'] % 2 != 0 and table['capacity'] > res['party_size'] else 0)
+        for table in reservationDICT['tables']:
+            currentSeatsReservedINT = sum(
+                res['partySizeINT'] + (1 if res['partySizeINT'] % 2 != 0 and table['capacity'] > res['partySizeINT'] else 0)
                 for res in table['reservations']
-                if self.start_time < datetime.strptime(res['end_time'], "%Y-%m-%d %H:%M") and self.end_time > datetime.strptime(res['start_time'], "%Y-%m-%d %H:%M")
+                if self.startTimeDT < datetime.strptime(res['endTimeDT'], "%Y-%m-%d %H:%M") and self.endTimeDT > datetime.strptime(res['startTimeDT'], "%Y-%m-%d %H:%M")
             )
-            available_seats = table['capacity'] - current_seats_reserved
+            availableSeatsINT = table['capacity'] - currentSeatsReservedINT
 
-            if seats_needed <= 0:
+            if seatsNeededINT <= 0:
                 break
 
-            if available_seats > 0:
-                seats_to_reserve = min(seats_needed, available_seats)
-                seats_needed -= seats_to_reserve
+            if availableSeatsINT > 0:
+                seatsToReserveINT = min(seatsNeededINT, availableSeatsINT)
+                seatsNeededINT -= seatsToReserveINT
                 table['reservations'].append({
                     "Name": self.mscDICT["name"],
                     "Phone number": self.mscDICT["phone_num"],
                     "Reserved people": self.mscDICT["num_of_people"],
-                    "start_time": self.reservation_time,
-                    "end_time": self.end_time.strftime("%Y-%m-%d %H:%M"),
-                    "party_size": seats_to_reserve
+                    "startTimeDT": self.reserveTimeSTR,
+                    "endTimeDT": self.endTimeDT.strftime("%Y-%m-%d %H:%M"),
+                    "partySizeINT": seatsToReserveINT
 
                     
                 })
+                logging.debug(table["reservations"])
 
-        self.save_reservations(reservations)
+        self.save_reservations(reservationDICT)
         return "預約成功"  
 
 class BotClient(discord.Client):
@@ -188,86 +186,98 @@ class BotClient(discord.Client):
                     replySTR = "嗨嗨，我是餐廳預約小幫手～請留下您的姓名，讓我協助您進行預約。"
 
 # ##########非初次對話：這裡用 Loki 計算語意
-            else: #開始處理正式對話
-                #從這裡開始接上 NLU 模型
+            else: 
+                """從這裡開始接上 NLU 模型"""
+
                 lokiResultDICT = getLokiResult(msgSTR)
                 if lokiResultDICT:
                     if message.author.id not in self.mscDICT:    # 判斷 User 是否為第一輪對話
                         self.mscDICT[message.author.id] = {
                             "name": None,
                             "reservation_time": None,
-                            "num_of_people": {"adult": None, "child": None, "total": None}, ## 分成大人跟小孩 
+                            "num_of_people": {"adult": None, "child": None, "total": None},
                             "phone_num": None,
                             "updatetime": datetime.now(),
                         }
 
+                    user_data = self.mscDICT[message.author.id]
+        
                     # 根據 Loki 的處理結果來處理多輪對話
                     if lokiResultDICT["name"]:
-                        self.mscDICT[message.author.id]["name"] = lokiResultDICT["name"]
+                        user_data["name"] = lokiResultDICT["name"]
                         logging.debug("######\nLoki 處理結果如下：")
                         logging.debug(lokiResultDICT)
-                        logging.debug(self.mscDICT[message.author.id])
+                        logging.debug(user_data)
                         replySTR = "請問您想預約什麼時候？"
 
-                    elif lokiResultDICT["time"]:
-                        self.mscDICT[message.author.id]["reservation_time"] = lokiResultDICT["time"]
+                    if lokiResultDICT["time"]:
+                        user_data["reservation_time"] = lokiResultDICT["time"]
                         logging.debug("######\nLoki 處理結果如下：")
                         logging.debug(lokiResultDICT)
-                        logging.debug(self.mscDICT[message.author.id])
+                        logging.debug(user_data)
                         replySTR = "請問預約人數是多少？（Ｏ大Ｏ小）"
 
-                    elif lokiResultDICT["adult"]:
-                        self.mscDICT[message.author.id]["num_of_people"]["adult"] = lokiResultDICT["adult"]
+                    if lokiResultDICT["adult"]:
                         if "大人" in msgSTR or "大" in msgSTR:
-                            self.mscDICT[message.author.id]["num_of_people"]["child"] = "無"
-                            self.mscDICT[message.author.id]["num_of_people"]["total"] = self.mscDICT[message.author.id]["num_of_people"]["adult"]
+                            if lokiResultDICT["child"] == []:
+                                user_data["num_of_people"]["child"] = "無"
+                                user_data["num_of_people"]["adult"] = lokiResultDICT["adult"]
+                                user_data["num_of_people"]["total"] = int(user_data["num_of_people"]["adult"][0])
+                            else:
+                                user_data["num_of_people"]["adult"] = lokiResultDICT["adult"]
                             replySTR = "請提供您的聯絡電話。"
                         else:
+                            user_data["num_of_people"]["total"] = int(lokiResultDICT["adult"][0])
                             replySTR = "請問有小孩嗎？"
                         logging.debug("######\nLoki 處理結果如下：")
                         logging.debug(lokiResultDICT)
-                        logging.debug(self.mscDICT[message.author.id])
+                        logging.debug(user_data)
 
-                    elif lokiResultDICT["child"]:
-                        self.mscDICT[message.author.id]["num_of_people"]["child"] = lokiResultDICT["child"]
-                        self.mscDICT[message.author.id]["num_of_people"]["adult"] = self.mscDICT[message.author.id]["num_of_people"]["adult"][0] - lokiResultDICT["child"][0]
-                        self.mscDICT[message.author.id]["num_of_people"]["total"] = self.mscDICT[message.author.id]["num_of_people"]["adult"] + self.mscDICT[message.author.id]["num_of_people"]["child"][0]
-                        if self.mscDICT[message.author.id]["num_of_people"]["child"] == 0:
-                            self.mscDICT[message.author.id]["num_of_people"]["child"] = "無"
+                    if lokiResultDICT["child"]:
+                        if user_data["num_of_people"]["adult"] is None and lokiResultDICT["child"] != 0:
+                            user_data["num_of_people"]["child"] = lokiResultDICT["child"]
+                            user_data["num_of_people"]["adult"] = user_data["num_of_people"]["total"] - user_data["num_of_people"]["child"][0]
+                        elif user_data["num_of_people"]["adult"] is None and lokiResultDICT["child"] == 0:
+                            user_data["num_of_people"]["child"] = lokiResultDICT["child"]
+                            user_data["num_of_people"]["adult"] = user_data["num_of_people"]["total"] - user_data["num_of_people"]["child"]
+                        else:
+                            user_data["num_of_people"]["child"] = lokiResultDICT["child"]
+                            user_data["num_of_people"]["total"] = user_data["num_of_people"]["adult"][0] + user_data["num_of_people"]["child"][0]
+                        if user_data["num_of_people"]["child"] == 0:
+                            user_data["num_of_people"]["child"] = "無"
+
                         logging.debug("######\nLoki 處理結果如下：")
                         logging.debug(lokiResultDICT)
-                        logging.debug(self.mscDICT[message.author.id])
+                        logging.debug(user_data)
                         replySTR = "請提供您的聯絡電話。"
 
-                    elif lokiResultDICT["phone"]:
-                        self.mscDICT[message.author.id]["phone_num"] = lokiResultDICT["phone"]
+                    if lokiResultDICT["phone"]:
+                        user_data["phone_num"] = lokiResultDICT["phone"]
+                        # 檢查是否所有信息都已提供
+                        if all(user_data[key] not in [None, "無"] for key in ["name", "reservation_time"]) and \
+                           all(user_data["num_of_people"][key] not in [None, "無"] for key in ["adult", "child", "total"]):
+                            replySTR = "感謝您提供的信息，我們正在為您查詢。"
+                        else:
+                            replySTR = "請提供所有必要的信息以完成預約。"
                         logging.debug("######\nLoki 處理結果如下：")
                         logging.debug(lokiResultDICT)
-                        logging.debug(self.mscDICT[message.author.id])
-                        replySTR = "感謝您提供的信息，我們正在為您查詢。"
+                        logging.debug(user_data)
 
-                    # 根據完成情況來回應
-                    if all(value for key, value in self.mscDICT[message.author.id].items() if key != "updatetime"):
-                        self.mscDICT[message.author.id]["finish"] = True
-                        logging.debug(self.mscDICT[message.author.id])
+                    """若客戶資訊搜集完畢則確認是否能安排座位"""
+                    if all(user_data[key] not in [None] for key in ["name", "reservation_time", "phone_num"]) and \
+                       all(user_data["num_of_people"][key] not in [None] for key in ["adult", "child", "total"]):
+                        user_data["finish"] = True
+                        logging.debug(user_data)
                         
-                        CheckTable = TableReserve(self.mscDICT[message.author.id])
+                        CheckTable = TableReserve(user_data)
                         result = CheckTable.make_reservation()
                         
                         if result == "預約成功":
-                            replySTR = f"""\
-                            Hello {self.mscDICT[message.author.id]["name"]}，您已訂位成功！
-                            跟您確認您的訂位資訊
-
-                            電話：{self.mscDICT[message.author.id]["phone_num"]}
-                            人數：{self.mscDICT[message.author.id]["num_of_people"]["total"]}人
-                            時間：{self.mscDICT[message.author.id]["reservation_time"]}
-
-                            Thank you! """
+                            replySTR = f"""Hello {user_data["name"][0]}，您已訂位成功！\n跟您確認您的訂位資訊\n\n電話：{user_data["phone_num"][0]}\n人數：{user_data["num_of_people"]["total"]}人\n時間：{user_data["reservation_time"][0]}\n\nThank you! """
                         else:
                             replySTR = "抱歉，該時段無法預約，請更換時段。"
-
-                # 確保回應訊息
+                    
+                    # 回應訊息送出
                 await message.reply(replySTR)
 
 

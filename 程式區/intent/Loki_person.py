@@ -74,7 +74,6 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
                 resultDICT["adult"] = numberConvert(args[2])
                 resultDICT["child"] = numberConvert(args[0])
 
-            pass
 
     if utterance == "[兩位]大人[兩位]小孩":
         if CHATBOT_MODE:
@@ -84,7 +83,7 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
         else:
             resultDICT["adult"] = articut.parse(args[0], level="lv3")["number"][args[0]]
             resultDICT["child"] = articut.parse(args[1], level="lv3")["number"][args[1]]
-            pass
+            
 
     if utterance == "[我]要[兩][大][兩][小]":
         if CHATBOT_MODE:
@@ -98,7 +97,7 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
             else:
                 resultDICT["adult"] = numberConvert(args[3])
                 resultDICT["child"] = numberConvert(args[1])
-            pass
+            
 
     if utterance == "[總共][兩][大][兩][小]":
         if CHATBOT_MODE:
@@ -112,7 +111,7 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
             else:
                 resultDICT["adult"] = numberConvert(args[3])
                 resultDICT["child"] = numberConvert(args[1])
-            pass
+            
 
     if utterance == "[總共][兩位]":
         if CHATBOT_MODE:
@@ -121,7 +120,7 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
                 resultDICT["source"] = "reply"
         else:
             resultDICT["adult"] = articut.parse(args[1], level="lv3")["number"][args[1]]
-            pass
+            
 
     if utterance == "[兩位]":
         if CHATBOT_MODE:
@@ -131,6 +130,7 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
         else:
             resultDICT["adult"] = articut.parse(args[0], level="lv3")["number"][args[0]]
 
+
     if utterance == "[一位]小孩":
         if CHATBOT_MODE:
             resultDICT["response"] = getResponse(utterance, args)
@@ -139,6 +139,7 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
         else:
             resultDICT["child"] = articut.parse(args[0], level="lv3")["number"][args[0]]
             
+
     if utterance == "沒有":
         if CHATBOT_MODE:
             resultDICT["response"] = getResponse(utterance, args)
@@ -146,6 +147,15 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
                 resultDICT["source"] = "reply"
         else:
             resultDICT["child"] = 0
+
+
+    if utterance == "[兩][大]":
+        if CHATBOT_MODE:
+            resultDICT["response"] = getResponse(utterance, args)
+            if resultDICT["response"]:
+                resultDICT["source"] = "reply"
+        else:
+            resultDICT["adult"] = numberConvert(args[0])
 
 
     return resultDICT

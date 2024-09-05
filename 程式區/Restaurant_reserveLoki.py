@@ -326,7 +326,7 @@ if __name__ == "__main__":
 
     # 測試其它句子
     filterLIST = []
-    splitLIST = ["！"," ","，", "。", "？", "!", ",", "\n", "；", "\u3000", ";"]
+    splitLIST = ["！"," ","，", "。", " ", "？", "!", ",", "\n", "；", "\u3000", ";"]
     # 設定參考資料
     refDICT = { # value 必須為 list
         #"key": [],
@@ -340,6 +340,6 @@ if __name__ == "__main__":
     # resultDICT = execLoki("今天天氣如何？後天氣象如何？", filterLIST=filterLIST, splitLIST=splitLIST, refDICT=refDICT) # output => {"key": ["今天天氣", "後天氣象"]}
     # resultDICT = execLoki(["今天天氣如何？", "後天氣象如何？"], filterLIST=filterLIST, refDICT=refDICT)                # output => {"key": ["今天天氣", "後天氣象"]}
 
-    inputSTR = "明天下午1:00"
+    inputSTR = "一位小孩"
     resultDICT = execLoki(inputSTR, splitLIST=splitLIST, filterLIST=filterLIST, refDICT=refDICT)                # output => {"key": ["今天天氣", "後天氣象"]}
     print(resultDICT)

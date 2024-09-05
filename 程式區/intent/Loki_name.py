@@ -68,7 +68,7 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
                 resultDICT["source"] = "reply"
         else:
             resultDICT["name"] = args[0]
-            pass
+            
 
     if utterance == "[張小姐]":
         if CHATBOT_MODE:
@@ -77,7 +77,7 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
                 resultDICT["source"] = "reply"
         else:
             resultDICT["name"] = args[0]
-            pass
+            
 
     if utterance == "[我]姓[張]":
         if CHATBOT_MODE:
@@ -86,7 +86,7 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
                 resultDICT["source"] = "reply"
         else:
             resultDICT["name"] = args[1]+ "先生/小姐"
-            pass
+            
 
     if utterance == "[我]的名字是[張小姐]":
         if CHATBOT_MODE:
@@ -95,6 +95,6 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
                 resultDICT["source"] = "reply"
         else:
             resultDICT["name"] = args[1]
-            pass
+            
 
     return resultDICT

@@ -73,7 +73,7 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
                 resultDICT["source"] = "reply"
         else:
             date = datetime.datetime.today().strftime('%Y')
-            date = f"{date}-{args[0]:02}-{args[1]:02}"
+            date = f"{date}-{int(args[0]):02}-{int(args[1]):02}"
             hour = args[2]
             minute = args[3]
             resultDICT["time"] = f"{date} {hour:02}:{minute:02}"
@@ -86,7 +86,7 @@ def getResult(inputSTR, utterance, args, resultDICT, refDICT, pattern=""):
                 resultDICT["source"] = "reply"
         else:
             date = datetime.datetime.today().strftime('%Y')
-            date = f"{date}-{args[0]:02}-{args[1]:02}"
+            date = f"{date}-{int(args[0]):02}-{int(args[1]):02}"
             dateDICT = articut.parse(args[2], level="lv3")
             datetime_str = dateDICT['time'][0][0]['datetime']
             hour_minute = datetime_str[11:16]

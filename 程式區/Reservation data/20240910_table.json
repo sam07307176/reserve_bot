@@ -1,0 +1,125 @@
+{
+    "max_seats": 10,
+    "tables": [
+        {
+            "id": 1,
+            "capacity": 2,
+            "reservations": [
+                {
+                    "Name": [
+                        "李小姐"
+                    ],
+                    "Phone number": [
+                        "0911222333"
+                    ],
+                    "Reserved people": {
+                        "adult": [
+                            5
+                        ],
+                        "child": "無",
+                        "total": 5
+                    },
+                    "startTimeDT": "2024-09-10 18:00",
+                    "endTimeDT": "2024-09-10 19:30",
+                    "partySizeINT": 2
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "capacity": 2,
+            "reservations": [
+                {
+                    "Name": [
+                        "李小姐"
+                    ],
+                    "Phone number": [
+                        "0911222333"
+                    ],
+                    "Reserved people": {
+                        "adult": [
+                            5
+                        ],
+                        "child": "無",
+                        "total": 5
+                    },
+                    "startTimeDT": "2024-09-10 18:00",
+                    "endTimeDT": "2024-09-10 19:30",
+                    "partySizeINT": 2
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "capacity": 2,
+            "reservations": [
+                {
+                    "Name": [
+                        "李小姐"
+                    ],
+                    "Phone number": [
+                        "0911222333"
+                    ],
+                    "Reserved people": {
+                        "adult": [
+                            5
+                        ],
+                        "child": "無",
+                        "total": 5
+                    },
+                    "startTimeDT": "2024-09-10 18:00",
+                    "endTimeDT": "2024-09-10 19:30",
+                    "partySizeINT": 1
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "capacity": 2,
+            "reservations": [
+                {
+                    "Name": [
+                        "張先生/小姐"
+                    ],
+                    "Phone number": [
+                        "0912345678"
+                    ],
+                    "Reserved people": {
+                        "adult": 2,
+                        "child": [
+                            1
+                        ],
+                        "total": 3
+                    },
+                    "startTimeDT": "2024-09-10 18:00",
+                    "endTimeDT": "2024-09-10 19:30",
+                    "partySizeINT": 2
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "capacity": 2,
+            "reservations": [
+                {
+                    "Name": [
+                        "張先生/小姐"
+                    ],
+                    "Phone number": [
+                        "0912345678"
+                    ],
+                    "Reserved people": {
+                        "adult": 2,
+                        "child": [
+                            1
+                        ],
+                        "total": 3
+                    },
+                    "startTimeDT": "2024-09-10 18:00",
+                    "endTimeDT": "2024-09-10 19:30",
+                    "partySizeINT": 1
+                }
+            ]
+        }
+    ]
+}
