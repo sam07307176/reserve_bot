@@ -8,7 +8,7 @@ import os
 import re
 from datetime import datetime, timedelta
 from pprint import pprint
-from restaurant_reservation import execLoki
+from Restaurant_reserveLoki import execLoki
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -127,10 +127,9 @@ class BotClient(discord.Client):
         清空與 messageAuthorID 之間的對話記錄
         '''
         templateDICT = {    
-                             # "id": messageAuthorID,
-                             # "updatetime" : datetime.now(),
-                             # "latestQuest": "",
-                             # "false_count" : 0,
+                             "id": messageAuthorID,
+                             "latestQuest": "",
+                             "false_count" : 0,
                              "name": None,
                              "reservation_time": None,
                              "num_of_people": {"adult": None, "child": None, "total": None},
@@ -169,7 +168,7 @@ class BotClient(discord.Client):
                 replySTR = "pong pong"
 
 # ##########初次對話：這裡是 keyword trigger 的。
-            elif msgSTR.lower() in ["哈囉","嗨","你好","您好","hi","hello"]:
+            elif msgSTR.lower() in ["哈囉","嗨","你好","您好","hi","hello", "訂位"]:
                 #有講過話(判斷對話時間差)
                 if message.author.id in self.mscDICT.keys():
                     timeDIFF = datetime.now() - self.mscDICT[message.author.id]["updatetime"]
@@ -277,8 +276,8 @@ class BotClient(discord.Client):
                         else:
                             replySTR = "抱歉，該時段無法預約，請更換時段。"
                     
-                    # 回應訊息送出
-                await message.reply(replySTR)
+            # 回應訊息送出
+            await message.reply(replySTR)
 
 
 
