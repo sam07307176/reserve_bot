@@ -129,7 +129,7 @@ class BotClient(discord.Client):
         templateDICT = {    
                              "id": messageAuthorID,
                              "latestQuest": "",
-                             "false_count" : 0,
+                             # "false_count" : 0,
                              "name": None,
                              "reservation_time": None,
                              "num_of_people": {"adult": None, "child": None, "total": None},
